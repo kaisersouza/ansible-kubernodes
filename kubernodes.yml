@@ -83,9 +83,9 @@
     - name: Install Kubernetes components
       apt:
         name:
-        - "kubeadm=1.23.1"
-        - "kubelet=1.23.1"
-        - "kubectl=1.23.1"
+        - "kubeadm=1.23.1-00"
+        - "kubelet=1.23.1-00"
+        - "kubectl=1.23.1-00"
         state: present
         dpkg_options: force-downgrade
         update_cache: true
