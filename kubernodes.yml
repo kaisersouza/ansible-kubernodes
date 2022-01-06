@@ -42,5 +42,5 @@
         - "containerd.io"
         state: present
         force: yes
-        allow_downgrade: yes
+        dpkg_options: force-downgrade
         update_cache: true
