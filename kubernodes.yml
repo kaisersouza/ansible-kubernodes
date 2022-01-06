@@ -4,12 +4,15 @@
     - fail: msg="OS should be Debian 10.1, not {{ ansible_distribution }} {{ ansible_distribution_version }}"
       when: ansible_distribution != 'Debian' or ansible_distribution_version != '10.1'
 
+    - name : Update Debian (aptitude)
+      shell: |
+        apt update -y
+
     - name : Update Debian 10
       apt:
         force: yes
         force_apt_get: yes
         update_cache: yes
-
 
     - name : Reboot and wait come up
       reboot:
