@@ -1,0 +1,24 @@
+- hosts: kubermaster
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Generate join command
+      shell: kubeadm token create --print-join-command
+      register: joincommand
+
+    - name: Get join command
+      set_facts:
+        joincommand: "{{ joincommand.stdout_lines[0] }}"
+
+
+- hosts: kuberworkers
+  become: yes
+  tasks:
+    - name: Check TCP port 6443 on master node
+      wait_for: "host={{ hostvars['master']['ansible_default_ipv4']['address'] }} port=6443 timeout=1"
+
+    - name: Join to master
+      shell: "{{ hostvars['master'].joincommand }} >> node_joined.txt"
+      args:
+        chdir: $HOME
+        creates: node_joined.txt
