@@ -11,7 +11,7 @@
         joincommand: "{{ joincommand.stdout_lines[0] }}"
 
 
-- hosts: kuberworkers
+- hosts: kuberworker
   become: yes
   tasks:
     - name: Check TCP port 6443 on master node

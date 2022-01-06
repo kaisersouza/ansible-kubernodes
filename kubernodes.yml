@@ -87,6 +87,5 @@
         - "kubelet=1.23.1"
         - "kubectl=1.23.1"
         state: present
-        force: yes
         dpkg_options: force-downgrade
         update_cache: true
