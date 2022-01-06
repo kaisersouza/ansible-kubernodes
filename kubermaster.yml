@@ -1,8 +1,20 @@
 - hosts: kubermaster
   become: yes
   tasks:
+    - name: Copy cgroupDriver to host
+      copy:
+        src: /etc/ansible/files/kubeadm-config.yaml
+        dest: $HOME/kubeadm-config.yaml
+
+    - name: Install Flannel network
+      become: yes
+      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_network_setup.txt
+      args:
+        chdir: $HOME
+        creates: pod_network_setup.txt
+
     - name: Init the cluster
-      shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> kubeinit.txt
+      shell: kubeadm init --config kubeadm-config.yaml >> kubeinit.txt
       args:
         chdir: $HOME
         creates: kubeinit.txt
@@ -21,10 +33,3 @@
         dest: /home/user/.kube/config
         remote_src: yes
         owner: user
-
-    - name: Install Flannel network
-      become: yes
-      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_network_setup.txt
-      args:
-        chdir: $HOME
-        creates: pod_network_setup.txt
