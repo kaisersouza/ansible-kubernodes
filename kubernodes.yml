@@ -1,0 +1,46 @@
+- hosts: kubernodes
+  become: yes
+  tasks:
+    - fail: msg="OS should be Debian 10.1, not {{ ansible_distribution }} {{ ansible_distribution_version }}"
+      when: ansible_distribution != 'Debian' or ansible_distribution_version != '10.1'
+
+    - name : Update Debian 10
+      apt:
+        force_apt_get: yes
+        update_cache: yes
+
+
+    - name : Reboot and wait come up
+      reboot:
+
+    - name : Install Repo over https
+      apt:
+        name :
+        - "ca-certificates"
+        - "curl"
+        - "gnupg"
+        - "lsb-release"
+        state: present
+
+    - name: Add Docker's official GPG key
+      apt_key:
+        url    : https://download.docker.com/linux/debian/gpg
+        state  : present
+        keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+
+    - name: Add Docker's apt repository
+      apt_repository:
+        repo        : "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian buster stable"
+        filename    : "docker"
+        update_cache: true
+
+    - name: Install Docker
+      apt:
+        name:
+        - "docker-ce=5:19.03.*"
+        - "docker-ce-cli=5:19.03.*"
+        - "containerd.io"
+        state: present
+        force: yes
+        allow_downgrade: yes
+        update_cache: true
