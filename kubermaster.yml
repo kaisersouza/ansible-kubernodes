@@ -21,6 +21,7 @@
         mode: 0755
 
     - name: Update userconfig
+      become: yes
       copy:
         src: /etc/kubernetes/admin.conf
         dest: /home/user/.kube/config
