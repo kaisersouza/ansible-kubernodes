@@ -106,3 +106,10 @@
         state: present
         dpkg_options: force-downgrade
         update_cache: true
+
+    - name: Add ansible user to the docker group
+      user:
+        name: "{{ ansible_user }}"
+        group: docker
+        append: yes
+        
