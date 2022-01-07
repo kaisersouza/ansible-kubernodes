@@ -50,6 +50,20 @@
         dpkg_options: force-downgrade
         update_cache: true
 
+    - name: Create cgroup daemon
+      shell: |
+        mkdir /etc/docker
+        cat <<EOF | sudo tee /etc/docker/daemon.json
+        {
+         "exec-opts": ["native.cgroupdriver=systemd"],
+         "log-driver": "json-file",
+         "log-opts": {
+          "max-size": "100m"
+         },
+          "storage-driver": "overlay2"
+        }
+        EOF
+
     - name: Disable SWAP since kubernetes can't work with swap enabled (1/2)
       shell: |
         swapoff -a
@@ -62,6 +76,9 @@
 
     - name: Update sysctl sets for Kubernetes networking
       shell: |
+        cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+        br_netfilter
+        EOF
         cat >>/etc/sysctl.d/kubernetes.conf<<EOF
         net.bridge.bridge-nf-call-ip6tables = 1
         net.bridge.bridge-nf-call-iptables = 1
