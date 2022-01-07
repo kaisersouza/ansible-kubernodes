@@ -26,8 +26,8 @@
         dest: /home/user/.kube/config
         remote_src: yes
         owner: user
-        
-    - name: Install Flannel network
+
+    - name: Install Calico network
       become: yes
       become_user: user
       shell: kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml >> pod_network_setup.txt
