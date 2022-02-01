@@ -3,7 +3,7 @@
   tasks:
     - name: Copy cgroupDriver to host
       copy:
-        src: /etc/ansible/files/kubeadm-config.yaml
+        src: kubeadm-config.yaml
         dest: $HOME/kubeadm-config.yaml
 
     - name: Init the cluster
