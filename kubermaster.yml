@@ -7,7 +7,7 @@
         dest: $HOME/kubeadm-config.yaml
 
     - name: Init the cluster
-      shell: kubeadm init --config kubeadm-config.yaml >> kubeinit.txt
+      shell: kubeadm init --config kubeadm-config.yaml --pod-network-cidr=10.244.0.0/16 >> kubeinit.txt
       args:
         chdir: $HOME
         creates: kubeinit.txt
