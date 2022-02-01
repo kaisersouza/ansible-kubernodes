@@ -40,6 +40,11 @@
        regexp: swap
        state: absent
 
+    - name: Load br_netfilter kernel module
+      modprobe:
+        name: br_netfilter
+        state: present
+
     - name : Install Repo over https
       apt:
         name :
@@ -109,7 +114,7 @@
       systemd:
         daemon_reload: yes
 
-    - name: Enable Docker service
+    - name: Restart Docker service
       service:
         name: docker
         state: restarted
