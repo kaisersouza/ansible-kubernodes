@@ -15,10 +15,10 @@
   become: yes
   tasks:
     - name: Check TCP port 6443 on master node
-      wait_for: "host={{ hostvars['master']['ansible_default_ipv4']['address'] }} port=6443 timeout=1"
+      wait_for: "host={{ hostvars['k8s-master.lambda.dark']['ansible_default_ipv4']['address'] }} port=6443 timeout=1"
 
     - name: Join to master
-      shell: "{{ hostvars['master'].joincommand }} >> node_joined.txt"
+      shell: "{{ hostvars['k8s-master.lambda.dark'].joincommand }} >> node_joined.txt"
       args:
         chdir: $HOME
         creates: node_joined.txt
