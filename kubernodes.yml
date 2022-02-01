@@ -1,6 +1,5 @@
 - hosts: kubernodes
   become: yes
-  remote_user: ansible
   become_user: root
   become_method: sudo
   connection: ssh
