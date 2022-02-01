@@ -85,8 +85,8 @@
     - name: Install Docker
       apt:
         name:
-        - "docker-ce=5:19.03.*"
-        - "docker-ce-cli=5:19.03.*"
+        - "docker-ce=5:20.10.*"
+        - "docker-ce-cli=5:20.10.*"
         - "containerd.io"
         state: present
         update_cache: true

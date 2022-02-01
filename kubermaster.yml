@@ -14,7 +14,7 @@
 
     - name: Kubernetes profile directory
       become: yes
-      become_user: user
+      become_user: root
       file:
         path: $HOME/.kube
         state: directory
@@ -24,14 +24,14 @@
       become: yes
       copy:
         src: /etc/kubernetes/admin.conf
-        dest: /home/user/.kube/config
+        dest: /home/root/.kube/config
         remote_src: yes
-        owner: user
+        owner: root
 
-    - name: Install Calico network
+    - name: Install Flannel network
       become: yes
-      become_user: user
-      shell: kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml >> pod_network_setup.txt
+      become_user: root
+      shell: kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml >> pod_network_setup.txt
       args:
         chdir: $HOME
         creates: pod_network_setup.txt
