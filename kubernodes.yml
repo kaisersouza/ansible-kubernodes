@@ -84,9 +84,12 @@
     - name: Install Docker
       apt:
         name:
-        - "docker-ce=5:20.10.*"
-        - "docker-ce-cli=5:20.10.*"
-        - "containerd.io"
+        - "docker-ce=5:20.10.16~3-0~debian-bullseye"
+        - "docker-ce-cli=5:20.10.16~3-0~debian-bullseye"
+        - "docker-ce-rootless-extras=5:20.10.16~3-0~debian-bullseye"
+        - "docker-compose-plugin=2.5.0~debian-bullseye"
+        - "docker-scan-plugin=0.17.0~debian-bullseye"
+        - "containerd.io=1.6.4-1"
         state: present
         update_cache: true
 
